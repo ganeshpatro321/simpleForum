@@ -1,0 +1,14 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const PostSchema = new Schema({
+    title: String,
+    description: String,
+    createdAt: Date,
+    content: String,
+    userId: mongoose.ObjectId,
+    likecount: Number
+});
+
+const Post = mongoose.model('Post', PostSchema);
+module.exports = Post;
