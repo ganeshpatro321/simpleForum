@@ -10,5 +10,9 @@ const PostSchema = new Schema({
     likecount: Number
 });
 
+PostSchema.methods.modifyPoints = (id, val) => {
+    this.findByIdAndUpdate(id, {$inc : {likecount: val}});
+}
+
 const Post = mongoose.model('Post', PostSchema);
 module.exports = Post;

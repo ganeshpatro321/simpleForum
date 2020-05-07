@@ -6,6 +6,7 @@ import axios from "axios";
 import Navbar from './Components/Navbar';
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import CreatePost from "./Pages/createPost";
 
 
 function App() {
@@ -43,6 +44,9 @@ function App() {
             </Route>
             <Route path="/auth/register">
               {!user ? <Register/> : <Redirect to="/"/>}
+            </Route>
+            <Route path="/createpost">
+              {user ? <CreatePost /> : <Redirect to="/"/>}
             </Route>
           </Switch>
         </Router>

@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api/auth', require("./controllers/Auth"));
+app.use('/api/post', require("./controllers/Post"));
 
 
 app.get("*", (req, res) => {
