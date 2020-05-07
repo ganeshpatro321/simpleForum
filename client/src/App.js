@@ -3,6 +3,9 @@ import './App.css';
 import AuthContext from './Contexts/AuthContext';
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import axios from "axios";
+import Navbar from './Components/Navbar';
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 
 
 function App() {
@@ -28,15 +31,23 @@ function App() {
 
   return (
     <div className="App">
+      {isInitiated && (
       <AuthContext.Provider value={{user, setUser, handleLogout}}>
         <Router>
+          <Navbar />
           <Switch>
             <Route path="/" exact>
-              HomePage
+            </Route>
+            <Route path="/auth/login">
+              {!user ? <Login/> : <Redirect to="/"/>}
+            </Route>
+            <Route path="/auth/register">
+              {!user ? <Register/> : <Redirect to="/"/>}
             </Route>
           </Switch>
         </Router>
       </AuthContext.Provider>
+      )}
     </div>
   );
 }

@@ -8,11 +8,15 @@ router.get('/init', async (req, res) => {
     let response = null;
 
     if (req.query.token) {
+        try{
         const {userId} = jwt.verify(req.query.token, 'app');
         const user = await User.findById(userId);
         if (user) {
             response = user;
         }
+    } catch (e) {
+        console.log("JWT promise rejection handler")
+    }
     }
 
     res.send({user: response});
@@ -28,7 +32,7 @@ router.post('/register', async (req, res) => {
     }
 
     const newUser = User({
-        name: req.body.name,
+        username: req.body.userName,
         email: req.body.email,
         password: req.body.password,
         createdAt: Date.now()
