@@ -16,6 +16,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use('/api/auth', require("./controllers/Auth"));
+
+
 app.get("*", (req, res) => {
     res.send("NodeJS server for the Forum App");
   });
