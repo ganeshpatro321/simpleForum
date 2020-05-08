@@ -30,7 +30,7 @@ const CreatePost = () => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -54,13 +54,13 @@ const CreatePost = () => {
     try {
       const response = await axios.post("/api/post/createpost", data);
       if (response.status === 201) {
-        setError(false);
+        setError("");
         setAlertMessage("Post created successfully!");
       }
     } catch (e) {
       const message = e.response.data.message;
       console.log(message);
-      setError(true);
+      setError("There were problems creating post");
     }
   };
 
@@ -68,7 +68,7 @@ const CreatePost = () => {
     <Container component="main" maxWidth="md">
       {error ? (
         <div style={{marginTop: "15px"}}>
-        <Alert severity="error">There were problems creating the post.</Alert>
+        <Alert severity="error">{error}.</Alert>
         </div>
       ) : null}
       {alertMessage ? (

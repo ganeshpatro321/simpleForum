@@ -18,8 +18,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
+
 }));
 
 export default function Navbar() {
@@ -48,6 +49,10 @@ export default function Navbar() {
     history.push("/auth/login");
   };
 
+  const handleTitleClick = () => {
+    history.push('/');
+  }
+
   const handleRegister = () => {
     handleClose();
     history.push("/auth/register");
@@ -55,7 +60,6 @@ export default function Navbar() {
 
   const handleCreatePost = () => {
     if (user) {
-        // console.log('user exists');
         history.push("/createpost");
     } else {
         setCreatePostError(true);
@@ -76,9 +80,12 @@ export default function Navbar() {
       </Alert> : null}
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          
+            <Button color="inherit" disableFocusRipple="true" disableRipple="true" onClick={handleTitleClick} className={classes.title}>
+            <Typography variant="h6">
             Simple Forum
-          </Typography>
+            </Typography>
+            </Button>
           <Button color="inherit" onClick={handleCreatePost}>
             Create Post
           </Button>
@@ -126,7 +133,7 @@ export default function Navbar() {
               </Menu>
             </div>
           )}
-        </Toolbar>
+        </Toolbar>        
       </AppBar>
     </div>
   );

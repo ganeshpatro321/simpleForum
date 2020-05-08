@@ -24,6 +24,20 @@ router.post('/createpost', async (req, res) => {
     res.sendStatus(201);
 });
 
+router.post('/upVote', async (req, res) => {
+    const {id} = req.body;
+    try{
+    await Post.findByIdAndUpdate(id, {
+        $inc: {likecount: 1}
+    })
+} catch(e){
+    console.log(e)
+    res.status(401).send({
+        message: 'Error_upvoting'
+    })
+}
+})
+
 router.get('/getposts', async (req, res) => {
     try{
         const posts = await Post.find();
