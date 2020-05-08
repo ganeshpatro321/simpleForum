@@ -35,7 +35,7 @@ export default function Feed() {
       const data = {id};
       setToggle(!toggle);
       if(!user){
-          setError("You must be logged in to upVote");
+          setError("You must be logged in to like a post");
       }
       try {
           await axios.post("api/post/upVote", data);

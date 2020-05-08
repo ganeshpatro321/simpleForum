@@ -40,6 +40,12 @@ const CreatePost = () => {
       history.push('/');
   }
 
+  const handleClear = () => {
+    setTitle('');
+    setDescription('');
+    setContent('');
+  }
+
   const handleSubmit = async e => {
     e.preventDefault();
     console.log(user);
@@ -56,6 +62,7 @@ const CreatePost = () => {
       if (response.status === 201) {
         setError("");
         setAlertMessage("Post created successfully!");
+        handleClear();
       }
     } catch (e) {
       const message = e.response.data.message;
