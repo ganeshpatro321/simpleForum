@@ -7,7 +7,8 @@ const PostSchema = new Schema({
     createdAt: Date,
     content: String,
     userId: mongoose.ObjectId,
-    likecount: Number
+    likecount: Number,
+    username: String
 });
 
 PostSchema.methods.modifyPoints = (id, val) => {

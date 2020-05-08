@@ -45,6 +45,7 @@ const CreatePost = () => {
     console.log(user);
     const data = {
       userId: user._id,
+      username: user.username,
       title,
       description,
       content
@@ -58,6 +59,7 @@ const CreatePost = () => {
       }
     } catch (e) {
       const message = e.response.data.message;
+      console.log(message);
       setError(true);
     }
   };

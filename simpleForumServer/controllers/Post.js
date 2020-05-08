@@ -3,13 +3,14 @@ const router = express.Router();
 const Post = require('../models/Post');
 
 router.post('/createpost', async (req, res) => {
-    const {title, content, userId, description} = req.body;
+    const {title, content, userId, description, username} = req.body;
     const newPost = Post({
         content,
         createdAt: Date.now(),
         title,
         description,
         userId,
+        username,
         likecount: 0
     });
     try{
@@ -23,7 +24,7 @@ router.post('/createpost', async (req, res) => {
     res.sendStatus(201);
 });
 
-router.get('/post', async (req, res) => {
+router.get('/getposts', async (req, res) => {
     try{
         const posts = await Post.find();
         res.send(posts);
