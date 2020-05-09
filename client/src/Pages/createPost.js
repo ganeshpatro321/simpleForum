@@ -58,7 +58,7 @@ const CreatePost = () => {
     };
 
     try {
-      const response = await axios.post("/api/post/createpost", data);
+      const response = await axios.post("http://localhost:5000/api/post/createpost", data);
       if (response.status === 201) {
         setError("");
         setAlertMessage("Post created successfully!");

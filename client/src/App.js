@@ -25,7 +25,7 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("/api/auth/init", { params: { token } });
+    const response = await axios.get("http://localhost:5000/api/auth/init", { params: { token } });
     const { user } = response.data;
     setUser(user);
     setIsInititated(true);
