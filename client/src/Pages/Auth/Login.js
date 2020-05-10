@@ -52,7 +52,7 @@ export default function SignIn() {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', data);
+            const response = await axios.post('http://ec2-3-23-128-253.us-east-2.compute.amazonaws.com:5000/api/auth/login', data);
             const {token, user} = response.data;
             localStorage.setItem("token", token);
             setUser(user);

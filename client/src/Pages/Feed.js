@@ -38,7 +38,7 @@ export default function Feed() {
           setError("You must be logged in to like a post");
       }
       try {
-          await axios.post("http://localhost:5000/api/post/upVote", data);
+          await axios.post("http://ec2-3-23-128-253.us-east-2.compute.amazonaws.com:5000/api/post/upVote", data);
           setError(null);
       } catch (e) {
           console.log(e);
@@ -48,7 +48,7 @@ export default function Feed() {
 
   const init = async () => {
     try {
-      const posts = await axios.get("http://localhost:5000/api/post/getposts");
+      const posts = await axios.get("http://ec2-3-23-128-253.us-east-2.compute.amazonaws.com:5000/api/post/getposts");
       dispatch({ type: "UPDATE_POSTS", payload: posts });
     } catch (e) {
       console.log(e);

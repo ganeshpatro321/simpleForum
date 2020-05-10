@@ -68,7 +68,7 @@ export default function Register() {
         };
 
         try {
-            await axios.post("http://localhost:5000/api/auth/register", data);
+            await axios.post("http://ec2-3-23-128-253.us-east-2.compute.amazonaws.com:5000/api/auth/register", data);
             history.push('/auth/login');
         } catch (e) {
             const message = e.response.data.message;
