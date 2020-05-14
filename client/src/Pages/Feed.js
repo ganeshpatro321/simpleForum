@@ -21,15 +21,38 @@ const useStyles = makeStyles(theme => ({
 export default function Feed() {
   const [store, dispatch] = usePostStore();
   const [error, setError] = useState(null);
+  const [switchAlert, setSwitchAlert] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [switched, setSwitched] = useState(0);
   const classes = useStyles();
   const {user} = useContext(AuthContext);
 
   const posts = store.posts.data;
 
+  const onFocus = () => {
+    console.log('Tab is in focus');
+    if(switched > 0){
+      setSwitchAlert(true);
+    }
+  };
+  
+  // User has switched away from the tab (AKA tab is hidden)
+  const onBlur = () => {
+    console.log('Tab is blurred');
+    setSwitched(switched + 1);
+  };
+  
+
   useEffect(() => {
     init();
-  }, [toggle]);
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('blur', onBlur);
+
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('blur', onBlur);
+    }
+  }, [toggle, switched]);
 
   const upVote = async (id) => {
       const data = {id};
@@ -58,6 +81,11 @@ export default function Feed() {
 
   return (
     <Container component="main" maxwidth="md">
+    {switchAlert ? (
+      <div style={{marginTop: "15px"}}>
+      <Alert severity="error">You have switched tabs {switched} times. You will be disqualified if you continue.</Alert>
+      </div>
+    ): null}
     {error ? (
         <div style={{marginTop: "15px"}}>
         <Alert severity="error">{error}.</Alert>
@@ -65,7 +93,7 @@ export default function Feed() {
       ) : null}
       <CssBaseline />
       <div className={classes.paper}>
-        {posts && posts.length != 0 ? (
+        {posts && posts.length !== 0 ? (
           posts.map(post => <Post data={post} upVote={upVote} />)
         ) : (
           <div>There are no posts available</div>
