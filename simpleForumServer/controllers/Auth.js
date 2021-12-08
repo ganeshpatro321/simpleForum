@@ -15,7 +15,11 @@ router.get('/init', async (req, res) => {
             response = user;
         }
     } catch (e) {
-        console.log("JWT promise rejection handler")
+        if(e instanceof jwt.JsonWebTokenError){
+            console.log('Unauthenticated user access!')
+        } else {
+            console.log('Error at init endpoint')
+        }
     }
     }
 

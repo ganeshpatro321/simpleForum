@@ -23,7 +23,7 @@ export default function Feed() {
   const [error, setError] = useState(null);
   const [toggle, setToggle] = useState(false);
   const classes = useStyles();
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const posts = store.posts.data;
 
@@ -32,18 +32,19 @@ export default function Feed() {
   }, [toggle]);
 
   const upVote = async (id) => {
-      const data = {id};
-      setToggle(!toggle);
-      if(!user){
-          setError("You must be logged in to like a post");
-      }
+    const data = { id };
+    setToggle(!toggle);
+    if (!user) {
+      setError("You must be logged in to like a post");
+    } else {
       try {
-          await axios.post("http://localhost:5000/api/post/upVote", data);
-          setError(null);
+        await axios.post("http://localhost:5000/api/post/upVote", data);
+        setError(null);
       } catch (e) {
-          console.log(e);
-          setError("There were problems upvoting the post");
+        console.log(e);
+        setError("There were problems upvoting the post");
       }
+    }
   }
 
   const init = async () => {
@@ -58,9 +59,9 @@ export default function Feed() {
 
   return (
     <Container component="main" maxwidth="md">
-    {error ? (
-        <div style={{marginTop: "15px"}}>
-        <Alert severity="error">{error}.</Alert>
+      {error ? (
+        <div style={{ marginTop: "15px" }}>
+          <Alert severity="error">{error}.</Alert>
         </div>
       ) : null}
       <CssBaseline />
