@@ -1,21 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const Post = require('../models/Post');
+const Helper = require('./helper');
 
-router.post('/createpost', async (req, res) => {
-    const {title, content, userId, description, username} = req.body;
+router.post('/createpost', Helper.verifyToken, async (req, res) => {
+    const {title, content, description} = req.body;
+    const {_id, username} = req.user;
     const newPost = Post({
         content,
         createdAt: Date.now(),
         title,
         description,
-        userId,
+        userId: _id,
         username,
         likecount: 0
     });
     try{
         await newPost.save();
     } catch (e) {
+        console.log(e);
         res.status(401).send({
             message: 'Error_creating_post'
         })
@@ -48,5 +51,20 @@ router.get('/getposts', async (req, res) => {
         });
     }
 });
+
+router.get('/getposts/:userId', Helper.verifyToken, async (req, res) => {
+    try{
+        const {_id} = req.user;
+        const posts = await Post.find({
+            userId: _id
+        })
+        res.send(posts)
+
+    } catch (e) {
+        res.status(401).send({
+            message: 'Error fetching posts for the user: ' + userId
+        })
+    }
+})
 
 module.exports = router;

@@ -28,8 +28,17 @@ export default function Feed() {
   const posts = store.posts.data;
 
   useEffect(() => {
+  const init = async () => {
+    try {
+      const posts = await axios.get("http://localhost:5000/api/post/getposts");
+      dispatch({ type: "UPDATE_POSTS", payload: posts });
+    } catch (e) {
+      console.log(e);
+      setError("There were problems fetching posts. Try again later.");
+    }
+  };
     init();
-  }, [toggle]);
+  }, [toggle, dispatch]);
 
   const upVote = async (id) => {
     const data = { id };
@@ -47,16 +56,6 @@ export default function Feed() {
     }
   }
 
-  const init = async () => {
-    try {
-      const posts = await axios.get("http://localhost:5000/api/post/getposts");
-      dispatch({ type: "UPDATE_POSTS", payload: posts });
-    } catch (e) {
-      console.log(e);
-      setError("There were problems fetching posts. Try again later.");
-    }
-  };
-
   return (
     <Container component="main" maxwidth="md">
       {error ? (
@@ -66,8 +65,8 @@ export default function Feed() {
       ) : null}
       <CssBaseline />
       <div className={classes.paper}>
-        {posts && posts.length != 0 ? (
-          posts.map(post => <Post data={post} upVote={upVote} />)
+        {posts && posts.length !== 0 ? (
+          posts.map(post => <Post data={post} upVote={upVote} key={post._id}/>)
         ) : (
           <div>There are no posts available</div>
         )}

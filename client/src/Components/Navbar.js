@@ -81,7 +81,7 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar>
           
-            <Button color="inherit" disableFocusRipple="true" disableRipple="true" onClick={handleTitleClick} className={classes.title}>
+            <Button color="inherit" disableFocusRipple disableRipple onClick={handleTitleClick} className={classes.title}>
             <Typography variant="h6">
             Simple Forum
             </Typography>

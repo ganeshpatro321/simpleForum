@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const morgan = require('morgan');
 const cors = require("cors");
 
 const config = require('./config');
@@ -13,6 +14,7 @@ mongoose.connection.on('connected', () => console.log('Connected to MongoDB'));
 
 // const PORT = 3000;
 const app = express();
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(cors());
 

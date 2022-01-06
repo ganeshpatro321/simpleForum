@@ -61,7 +61,7 @@ export default function Post(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {data.username.slice(0,1)}
+            {data.username ? data.username.slice(0,1) : ""}
           </Avatar>
         }
         action={
