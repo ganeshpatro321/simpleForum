@@ -11,6 +11,9 @@ import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
+  navbar: {
+    backgroundColor: "#942e6b"
+  },
   root: {
     flexGrow: 1
   },
@@ -66,6 +69,12 @@ export default function Navbar() {
     }
   };
 
+  const handleOpenMyPosts = () => {
+    if (user) {
+      history.push("/posts")
+    }
+  }
+
   return (
     <div className={classes.root}>
       {createPostError ? <Alert
@@ -78,14 +87,22 @@ export default function Navbar() {
       >
         You must be logged in to create a post
       </Alert> : null}
-      <AppBar position="static">
+      <AppBar position="static" classes={{root: classes.navbar}}>
         <Toolbar>
           
-            <Button color="inherit" disableFocusRipple="true" disableRipple="true" onClick={handleTitleClick} className={classes.title}>
+            <Button color="inherit" disableFocusRipple disableRipple onClick={handleTitleClick} className={classes.title}>
             <Typography variant="h6">
             Simple Forum
             </Typography>
             </Button>
+          
+          {user ? (
+            <div>
+              <Button color="inherit" onClick={handleOpenMyPosts}>
+            My Posts
+            </Button>
+            </div>
+          ): <div />}
           <Button color="inherit" onClick={handleCreatePost}>
             Create Post
           </Button>

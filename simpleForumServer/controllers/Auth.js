@@ -7,9 +7,10 @@ const bcrypt = require("bcryptjs");
 router.get('/init', async (req, res) => {
     let response = null;
 
-    if (req.query.token) {
+    const authToken = req.headers['authorization'];
+    if (authToken) {
         try{
-        const {userId} = jwt.verify(req.query.token, 'app');
+        const {userId} = jwt.verify(authToken, 'app');
         const user = await User.findById(userId);
         if (user) {
             response = user;

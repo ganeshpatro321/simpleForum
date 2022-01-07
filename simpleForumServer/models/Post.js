@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-    title: String,
-    description: String,
-    createdAt: Date,
+    title: {type: String, required: true},
+    description: {type: String, required: true},
+    createdAt: {type: Date, requried: true},
     content: String,
-    userId: mongoose.ObjectId,
+    userId: {type: mongoose.ObjectId, required: true},
     likecount: Number,
-    username: String
+    username: {type: String, required: true}
 });
 
 PostSchema.methods.modifyPoints = (id, val) => {

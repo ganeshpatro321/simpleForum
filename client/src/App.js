@@ -5,7 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Components/Navbar";
@@ -13,6 +13,7 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import CreatePost from "./Pages/createPost";
 import Feed from "./Pages/Feed";
+import MyPosts from "./Pages/MyPosts";
 import { PostStoreProvider } from "./Contexts/PostContext";
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:5000/api/auth/init", { params: { token } });
+    const response = await axios.get("http://localhost:5000/api/auth/init", {
+      headers: { Authorization: `${token}` },
+    });
     const { user } = response.data;
     setUser(user);
     setIsInititated(true);
@@ -58,6 +61,19 @@ function App() {
               <Route path="/createpost">
                 {user ? <CreatePost /> : <Redirect to="/" />}
               </Route>
+              <Route path="/posts">
+                {user ? (
+                  <PostStoreProvider>
+                    <MyPosts />
+                  </PostStoreProvider>
+                ) : (
+                  <Redirect to="/unauthorized" />
+                )}
+              </Route>
+              <Route
+                path="/unauthorized"
+                render={() => <p>Access Denied! :(</p>}
+              />
             </Switch>
           </Router>
         </AuthContext.Provider>

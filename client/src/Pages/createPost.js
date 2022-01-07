@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../Contexts/AuthContext";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -10,55 +9,59 @@ import Alert from "@material-ui/lab/Alert";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   form: {
-    width: "100%"
+    width: "100%",
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 const CreatePost = () => {
   const history = useHistory();
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
 
-  const handleClose = e => {
-      setError(false);
-      history.push('/');
-  }
+  const handleClose = (e) => {
+    setError(false);
+    history.push("/");
+  };
 
   const handleClear = () => {
-    setTitle('');
-    setDescription('');
-    setContent('');
-  }
+    setTitle("");
+    setDescription("");
+    setContent("");
+  };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
     const data = {
-      userId: user._id,
-      username: user.username,
       title,
       description,
-      content
+      content,
+    };
+
+    const token = localStorage.getItem("token");
+    const header = {
+      authorization: `${token}`,
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/post/createpost", data);
+      const response = await axios.post(
+        "http://localhost:5000/api/post/createpost",
+        data, { headers: header}
+      );
       if (response.status === 201) {
         setError("");
         setAlertMessage("Post created successfully!");
@@ -74,22 +77,22 @@ const CreatePost = () => {
   return (
     <Container component="main" maxWidth="md">
       {error ? (
-        <div style={{marginTop: "15px"}}>
-        <Alert severity="error">{error}.</Alert>
+        <div style={{ marginTop: "15px" }}>
+          <Alert severity="error">{error}.</Alert>
         </div>
       ) : null}
       {alertMessage ? (
-        <div style={{marginTop: "15px"}}>
-        <Alert
-          action={
-            <Button size="small" onClick={handleClose}>
-              Go to feed
-            </Button>
-          }
-          severity="success"
-        >
-          {alertMessage}
-        </Alert>
+        <div style={{ marginTop: "15px" }}>
+          <Alert
+            action={
+              <Button size="small" onClick={handleClose}>
+                Go to feed
+              </Button>
+            }
+            severity="success"
+          >
+            {alertMessage}
+          </Alert>
         </div>
       ) : null}
       <CssBaseline />
@@ -104,7 +107,7 @@ const CreatePost = () => {
             label="Post Title"
             autoFocus
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
             required
@@ -112,7 +115,7 @@ const CreatePost = () => {
             label="Description"
             autoFocus
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <TextField
             id="standard-multiline-flexible"
@@ -123,7 +126,7 @@ const CreatePost = () => {
             rows={6}
             autoFocus
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
           />
           <Button
             type="submit"

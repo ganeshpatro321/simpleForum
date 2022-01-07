@@ -3,7 +3,8 @@ import React, {createContext, useReducer, useMemo, useContext} from "react";
 const PostContext = createContext();
 
 const initialState = {
-    posts: []
+    posts: [],
+    myPosts: []
 }
 
 const reducer = (state, action) => {
@@ -12,6 +13,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 posts: action.payload
+            }
+        case 'UPDATE_MY_POSTS':
+            return {
+                ...state,
+                myPosts: action.payload
             }
         default:
             return state;

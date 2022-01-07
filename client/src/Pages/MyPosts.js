@@ -8,37 +8,42 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 }));
 
-export default function Feed() {
+export default function MyPosts() {
   const [store, dispatch] = usePostStore();
   const [error, setError] = useState(null);
   const [toggle, setToggle] = useState(false);
   const classes = useStyles();
   const { user } = useContext(AuthContext);
 
-  const posts = store.posts.data;
+  const myPosts = store.myPosts.data;
 
-  const init = React.useCallback(async () => {
-    try {
-      const posts = await axios.get("http://localhost:5000/api/post/getposts");
-      dispatch({ type: "UPDATE_POSTS", payload: posts });
+  const init = React.useCallback (async () => {
+    try{
+      const userId = user._id;
+      const token = localStorage.getItem('token');
+      const myPosts = await axios.get(`http://localhost:5000/api/post/getPosts/${userId}`, {
+          headers : {
+              authorization: `${token}`
+          }
+      } );
+      dispatch({ type: "UPDATE_MY_POSTS", payload: myPosts})
     } catch (e) {
-      console.log(e);
-      setError("There were problems fetching posts. Try again later.");
+        console.log(e);
+        setError("There were problems fetching your posts. Please try again later.")
     }
-  }, [dispatch]);
+}, [dispatch, user._id]);
 
   useEffect(() => {
-    init();
+      init();
   }, [toggle, init]);
 
   const upVote = async (id) => {
@@ -59,19 +64,19 @@ export default function Feed() {
 
   return (
     <Container component="main" maxwidth="md">
-      {error ? (
-        <div style={{ marginTop: "15px" }}>
-          <Alert severity="error">{error}.</Alert>
-        </div>
-      ) : null}
-      <CssBaseline />
-      <div className={classes.paper}>
-        {posts && posts.length !== 0 ? (
-          posts.map(post => <Post data={post} upVote={upVote} key={post._id} fetchPosts={init}/>)
-        ) : (
-          <div>There are no posts available</div>
-        )}
+    {error ? (
+      <div style={{ marginTop: "15px" }}>
+        <Alert severity="error">{error}.</Alert>
       </div>
-    </Container>
+    ) : null}
+    <CssBaseline />
+    <div className={classes.paper}>
+      {myPosts && myPosts.length !== 0 ? (
+        myPosts.map(post => <Post data={post} upVote={upVote} key={post._id} fetchPosts={init}/>)
+      ) : (
+        <div>There are no posts available</div>
+      )}
+    </div>
+  </Container>
   );
 }
