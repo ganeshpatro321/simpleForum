@@ -67,4 +67,17 @@ router.get('/getposts/:userId', Helper.verifyToken, async (req, res) => {
     }
 })
 
+router.delete('/:postId', Helper.verifyToken, async (req, res) => {
+    try{
+        console.log("Coming");
+        const postId = req.params['postId'];
+        await Post.deleteOne({ _id: postId});
+        res.send(200);
+    } catch (e) {
+        res.status(401).send({
+            message: 'Error deleting the post'
+        })
+    }
+})
+
 module.exports = router;

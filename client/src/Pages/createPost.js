@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../Contexts/AuthContext";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 const CreatePost = () => {
   const history = useHistory();
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -48,7 +46,6 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
     const data = {
       title,
       description,
