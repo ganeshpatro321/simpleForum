@@ -26,7 +26,7 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:5000/api/auth/init", {
+    const response = await axios.get( `${process.env.REACT_APP_BACKEND_URL}/auth/init`, {
       headers: { Authorization: `${token}` },
     });
     const { user } = response.data;

@@ -52,7 +52,7 @@ export default function SignIn() {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', data);
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, data);
             const {token, user} = response.data;
             localStorage.setItem("token", token);
             setUser(user);

@@ -59,7 +59,7 @@ const CreatePost = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/post/createpost",
+        `${process.env.REACT_APP_BACKEND_URL}/post/createpost`,
         data, { headers: header}
       );
       if (response.status === 201) {

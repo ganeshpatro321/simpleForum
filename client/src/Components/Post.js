@@ -69,7 +69,7 @@ export default function Post(props) {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.delete(
-        `http://localhost:5000/api/post/${data._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/post/${data._id}`,
         { headers: { authorization: `${token}` } }
       );
       if (res.status !== 200) {

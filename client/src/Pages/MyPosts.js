@@ -30,7 +30,7 @@ export default function MyPosts() {
     try{
       const userId = user._id;
       const token = localStorage.getItem('token');
-      const myPosts = await axios.get(`http://localhost:5000/api/post/getPosts/${userId}`, {
+      const myPosts = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/post/getPosts/${userId}`, {
           headers : {
               authorization: `${token}`
           }
@@ -53,7 +53,7 @@ export default function MyPosts() {
       setError("You must be logged in to like a post");
     } else {
       try {
-        await axios.post("http://localhost:5000/api/post/upVote", data);
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/upVote`, data);
         setError(null);
       } catch (e) {
         console.log(e);

@@ -68,7 +68,7 @@ export default function Register() {
         };
 
         try {
-            await axios.post("http://localhost:5000/api/auth/register", data);
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, data);
             history.push('/auth/login');
         } catch (e) {
             const message = e.response.data.message;

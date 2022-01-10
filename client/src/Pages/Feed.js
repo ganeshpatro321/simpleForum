@@ -29,7 +29,7 @@ export default function Feed() {
 
   const init = React.useCallback(async () => {
     try {
-      const posts = await axios.get("http://localhost:5000/api/post/getposts");
+      const posts = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/post/getposts`);
       dispatch({ type: "UPDATE_POSTS", payload: posts });
     } catch (e) {
       console.log(e);
@@ -48,7 +48,7 @@ export default function Feed() {
       setError("You must be logged in to like a post");
     } else {
       try {
-        await axios.post("http://localhost:5000/api/post/upVote", data);
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/upVote`, data);
         setError(null);
       } catch (e) {
         console.log(e);
